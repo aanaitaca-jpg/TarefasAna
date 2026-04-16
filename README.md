@@ -1,0 +1,714 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarefas da Ana — by.agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #8d0007;
+    --red-dark: #6a0005;
+    --red-dim: rgba(141,0,7,0.12);
+    --red-line: rgba(141,0,7,0.25);
+    --black: #0d0d0d;
+    --black2: #1a1a1a;
+    --black3: #262626;
+    --gray: #3a3a3a;
+    --gray2: #555;
+    --gray3: #888;
+    --border: rgba(255,255,255,0.07);
+    --white: #ffffff;
+    --white-dim: rgba(255,255,255,0.65);
+    --white-faint: rgba(255,255,255,0.08);
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--black2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .logo-agency {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--red);
+  }
+
+  .logo-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-bottom: 2px;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gray3);
+  }
+
+  .header-stats {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .stat-item {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--white);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray3);
+  }
+
+  .stat-sep {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-track {
+    height: 2px;
+    background: var(--black3);
+    width: 100%;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--red);
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 100px;
+  }
+
+  /* ─── PAGE HEADING ─── */
+  .page-heading {
+    margin-bottom: 40px;
+  }
+
+  .page-heading h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    letter-spacing: 4px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .page-heading h1 em {
+    color: var(--red);
+    font-style: normal;
+  }
+
+  .page-heading p {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: var(--gray3);
+  }
+
+  /* ─── ADD TASK BLOCK ─── */
+  .add-block {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: 0 0 8px 8px;
+    padding: 28px 28px 24px;
+    margin-bottom: 36px;
+  }
+
+  .add-block-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .task-input-area {
+    width: 100%;
+    background: var(--black3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 18px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--white);
+    resize: none;
+    outline: none;
+    line-height: 1.5;
+    min-height: 90px;
+    transition: border-color 0.2s;
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .task-input-area::placeholder {
+    color: var(--gray2);
+  }
+
+  .task-input-area:focus {
+    border-color: var(--red-line);
+  }
+
+  .add-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cat-select {
+    background: var(--black3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--gray3);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .cat-select:focus { border-color: var(--red-line); }
+
+  .add-btn {
+    background: var(--red);
+    border: none;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    padding: 11px 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .add-btn:hover { background: var(--red-dark); }
+  .add-btn:active { transform: scale(0.97); }
+
+  .shortcut-hint {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gray2);
+    margin-left: auto;
+    letter-spacing: 0.5px;
+  }
+
+  kbd {
+    background: var(--black3);
+    border: 1px solid var(--gray);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--gray3);
+  }
+
+  /* ─── FILTERS ─── */
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--gray2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab.active {
+    background: var(--red);
+    color: var(--white);
+    border-color: var(--red);
+  }
+
+  .tab:hover:not(.active) {
+    border-color: rgba(141,0,7,0.4);
+    color: var(--white-dim);
+  }
+
+  /* ─── TASK LIST ─── */
+  .group-header {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .group-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--red-line);
+  }
+
+  .tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .task-item {
+    background: var(--black2);
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    border-radius: 0 6px 6px 0;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.2s, background 0.2s;
+    animation: fadeIn 0.25s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-6px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .task-item:hover {
+    background: var(--white-faint);
+    border-left-color: var(--red);
+  }
+
+  .task-item.done {
+    opacity: 0.4;
+    border-left-color: transparent;
+  }
+
+  /* ─── CHECKBOX ─── */
+  .cb-wrap {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    position: relative;
+    margin-top: 1px;
+    cursor: pointer;
+  }
+
+  .cb-wrap input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .cb-box {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--gray2);
+    border-radius: 3px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    pointer-events: none;
+  }
+
+  .cb-wrap input:checked ~ .cb-box {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  .cb-check {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .cb-wrap input:checked ~ .cb-box .cb-check { opacity: 1; }
+
+  /* ─── TASK CONTENT ─── */
+  .task-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .task-text {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.5;
+    word-break: break-word;
+    transition: all 0.3s;
+  }
+
+  .task-item.done .task-text {
+    text-decoration: line-through;
+    color: var(--gray2);
+  }
+
+  /* ─── BADGE ─── */
+  .task-cat {
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-top: 2px;
+  }
+
+  .cat-geral    { background: rgba(255,255,255,0.06); color: var(--gray3); }
+  .cat-conteudo { background: rgba(141,0,7,0.15);    color: #e87070; }
+  .cat-clientes { background: rgba(255,255,255,0.08); color: #aaa; }
+  .cat-interno  { background: rgba(255,200,50,0.1);   color: #c8a040; }
+  .cat-urgente  { background: rgba(141,0,7,0.3);      color: #ff8080; border: 1px solid rgba(141,0,7,0.6); }
+
+  /* ─── DELETE ─── */
+  .del-btn {
+    background: none;
+    border: none;
+    color: var(--gray2);
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 2px 4px;
+    margin-top: 1px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .task-item:hover .del-btn { opacity: 1; }
+  .del-btn:hover { color: var(--red); }
+
+  /* ─── EMPTY STATE ─── */
+  .empty {
+    text-align: center;
+    padding: 64px 0;
+  }
+
+  .empty-icon {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 6px;
+    color: var(--black3);
+    margin-bottom: 16px;
+  }
+
+  .empty-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--gray2);
+    letter-spacing: 1px;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--black2);
+    border-top: 1px solid var(--border);
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray2);
+    letter-spacing: 1px;
+  }
+
+  .footer strong {
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--gray2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    border-color: var(--red-line);
+    color: var(--red);
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-wrap">
+    <span class="logo-agency">BY</span>
+    <span class="logo-dot"></span>
+    <span class="logo-agency">AGENCY</span>
+    <span class="logo-sub" style="margin-left:8px;">/ Ana</span>
+  </div>
+  <div class="header-stats">
+    <div class="stat-item">
+      <span class="stat-num" id="stat-total">0</span>
+      <span class="stat-label">Total</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-done">0</span>
+      <span class="stat-label">Feitas</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-pct">0%</span>
+      <span class="stat-label">Progresso</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-track">
+  <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+</div>
+
+<main class="main">
+
+  <div class="page-heading">
+    <h1>MINHAS <em>TAREFAS</em></h1>
+    <p>Gestão de entregas · by.agency</p>
+  </div>
+
+  <!-- ADD BLOCK -->
+  <div class="add-block">
+    <span class="add-block-label">Nova Tarefa</span>
+    <textarea
+      class="task-input-area"
+      id="new-task-input"
+      placeholder="Descreva a tarefa com detalhes..."
+      rows="3"
+    ></textarea>
+    <div class="add-row">
+      <select class="cat-select" id="new-task-cat">
+        <option value="geral">Geral</option>
+        <option value="conteudo">Conteúdo</option>
+        <option value="clientes">Clientes</option>
+        <option value="interno">Interno</option>
+        <option value="urgente">🔴 Urgente</option>
+      </select>
+      <button class="add-btn" onclick="addTask()">ADICIONAR</button>
+      <span class="shortcut-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-row">
+    <button class="tab active" onclick="setFilter('todas',this)">Todas</button>
+    <button class="tab" onclick="setFilter('pendentes',this)">Pendentes</button>
+    <button class="tab" onclick="setFilter('feitas',this)">Feitas</button>
+    <button class="tab" onclick="setFilter('urgente',this)">Urgente</button>
+    <button class="tab" onclick="setFilter('conteudo',this)">Conteúdo</button>
+    <button class="tab" onclick="setFilter('clientes',this)">Clientes</button>
+    <button class="tab" onclick="setFilter('interno',this)">Interno</button>
+  </div>
+
+  <!-- TASKS -->
+  <div id="tasks-container"></div>
+
+</main>
+
+<footer class="footer">
+  <span>by<strong>.agency</strong> · Tarefas da Ana</span>
+  <button class="clear-btn" onclick="clearDone()">Limpar concluídas</button>
+</footer>
+
+<script>
+let tasks = [
+  { id:1, text:'Finalizar guia de configuração Kiwify — Vendas com IA (Day)', cat:'conteudo', done:false },
+  { id:2, text:'Revisar order bump do curso da Clea — Atendimento ao Cliente', cat:'clientes', done:false },
+  { id:3, text:'Publicar Stories para Criativamente no Instagram', cat:'conteudo', done:true },
+  { id:4, text:'Atualizar media kit com novos serviços do grupo', cat:'interno', done:false },
+  { id:5, text:'Revisar scripts de Reels — Escape Time Brasil', cat:'clientes', done:true },
+  { id:6, text:'Enviar proposta para novo cliente', cat:'urgente', done:false },
+];
+let nextId = 7;
+let filter = 'todas';
+
+const catLabels = { geral:'Geral', conteudo:'Conteúdo', clientes:'Clientes', interno:'Interno', urgente:'Urgente' };
+
+function addTask() {
+  const inp = document.getElementById('new-task-input');
+  const cat = document.getElementById('new-task-cat').value;
+  const text = inp.value.trim();
+  if (!text) { inp.focus(); return; }
+  tasks.unshift({ id: nextId++, text, cat, done: false });
+  inp.value = '';
+  inp.focus();
+  render();
+}
+
+document.getElementById('new-task-input').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') addTask();
+});
+
+function toggle(id) {
+  const t = tasks.find(t => t.id === id);
+  if (t) { t.done = !t.done; render(); }
+}
+
+function remove(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  render();
+}
+
+function clearDone() {
+  tasks = tasks.filter(t => !t.done);
+  render();
+}
+
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function getFiltered() {
+  if (filter === 'todas')    return tasks;
+  if (filter === 'pendentes') return tasks.filter(t => !t.done);
+  if (filter === 'feitas')   return tasks.filter(t => t.done);
+  return tasks.filter(t => t.cat === filter);
+}
+
+function taskHTML(t) {
+  return `
+  <div class="task-item${t.done?' done':''}" id="task-${t.id}">
+    <label class="cb-wrap">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggle(${t.id})">
+      <div class="cb-box">
+        <svg class="cb-check" width="11" height="9" viewBox="0 0 11 9" fill="none">
+          <path d="M1 4.2L4 7.5L10 1" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </label>
+    <div class="task-body">
+      <span class="task-text">${t.text}</span>
+    </div>
+    <span class="task-cat cat-${t.cat}">${catLabels[t.cat]||t.cat}</span>
+    <button class="del-btn" onclick="remove(${t.id})" title="Remover">✕</button>
+  </div>`;
+}
+
+function render() {
+  const total = tasks.length;
+  const done  = tasks.filter(t => t.done).length;
+  const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-done').textContent  = done;
+  document.getElementById('stat-pct').textContent   = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const filtered = getFiltered();
+  const container = document.getElementById('tasks-container');
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">— —</div><p class="empty-text">Nenhuma tarefa aqui.</p></div>';
+    return;
+  }
+
+  const pending  = filtered.filter(t => !t.done);
+  const finished = filtered.filter(t => t.done);
+  let html = '';
+
+  if (pending.length) {
+    if (filter === 'todas' || filter === 'pendentes') html += '<div class="group-header">Pendentes</div>';
+    html += '<div class="tasks-list">' + pending.map(taskHTML).join('') + '</div>';
+  }
+  if (finished.length) {
+    if (filter === 'todas' || filter === 'feitas') html += '<div class="group-header">Concluídas</div>';
+    html += '<div class="tasks-list">' + finished.map(taskHTML).join('') + '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+render();
+</script>
+</body>
+</html>
